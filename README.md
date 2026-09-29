@@ -6,6 +6,12 @@
 
 一旦起動すれば、オフラインでも使えます。
 
+## Deployment
+
+`public/` is published by the GitHub Pages workflow on pushes to `main`.
+Set the Pages source to **GitHub Actions** and configure `oriruyo.com` as the
+custom domain in the repository's Pages settings.
+
 ## License
 
 Apache-2.0.

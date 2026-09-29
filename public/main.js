@@ -97,22 +97,42 @@ const KINDS = new Map([
 ]);
 
 const HIST_LS_KEY = 'oriruyo-history';
+const readSavedHistory = () => {
+    try {
+        const saved = JSON.parse(localStorage.getItem(HIST_LS_KEY) ?? '[]');
+        return Array.isArray(saved) ? saved.filter(key => typeof key === 'string') : [];
+    } catch (_) {
+        return [];
+    }
+};
+
 const addHistory = (kind, lineFor, dest) => {
     const key = JSON.stringify([kind, lineFor, dest]);
-    const saved = JSON.parse(localStorage.getItem(HIST_LS_KEY) ?? '[]');
-    const savedSet = new Set(saved);
+    const savedSet = new Set(readSavedHistory());
     savedSet.delete(key);
     const saving = [key, ... savedSet].slice(0, 20);
-    localStorage.setItem(HIST_LS_KEY, JSON.stringify(saving));
+    try {
+        localStorage.setItem(HIST_LS_KEY, JSON.stringify(saving));
+    } catch (_) {
+        // Displaying the destination must still work when storage is unavailable.
+    }
 };
 
 const getHistory = () => {
-    const saved = JSON.parse(localStorage.getItem(HIST_LS_KEY) ?? '[]');
-    return [... saved].map(key => JSON.parse(key)).map(([kind, lineFor, dest]) => ({
-        kind: String(kind),
-        lineFor: String(lineFor),
-        dest: String(dest),
-    }));
+    return readSavedHistory().flatMap(key => {
+        try {
+            const value = JSON.parse(key);
+            if (!Array.isArray(value) || value.length !== 3) return [];
+            const [kind, lineFor, dest] = value;
+            return [{
+                kind: String(kind),
+                lineFor: String(lineFor),
+                dest: String(dest),
+            }];
+        } catch (_) {
+            return [];
+        }
+    });
 };
 
 const routeHistory = () => {
@@ -209,7 +229,7 @@ if ('serviceWorker' in navigator) {
         // An existing worker still controls offline launches; avoid an update request.
         if (registrationPending || navigator.onLine === false) return;
         registrationPending = true;
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('/sw.js')
             .then(() => window.removeEventListener('online', registerServiceWorker))
             .catch((error) => {
                 registrationPending = false;
