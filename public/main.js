@@ -177,7 +177,7 @@ const routeDisplay = (searchParams) => {
             font-size: min(10vi, calc((75vi - 3rem) / ${lineForCount}));
         }
         #display-dest {
-            font-size: min(17.5vi, calc((100vi - 3rem) / ${destCount}));
+            font-size: min(17.5vi, calc((94vi - 3rem) / ${destCount}));
         }
     `;
     const style = new CSSStyleSheet;

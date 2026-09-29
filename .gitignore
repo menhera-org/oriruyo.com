@@ -2,3 +2,6 @@
 .DS_Store
 ._*
 .env
+/.codex
+/.agents
+/.claude
