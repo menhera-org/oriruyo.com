@@ -10,7 +10,7 @@
 <link rel="icon" href="/icon.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#3792AD">
+<meta name="theme-color" content="#f1f7f9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="降りるよ">
 <meta name="description" content="現在乗車中の列車、路面電車、バスのあなたが降りる地点を分かりやすく画面に表示するアプリです。">
@@ -36,6 +36,14 @@
 <button id="button-start" class="action-button">はじめる</button>
 <button id="button-history" class="action-button">過去履歴</button>
 <hr>
+<div id="theme-control">
+<label for="theme-select">配色</label>
+<select id="theme-select">
+    <option value="system">端末の設定に合わせる</option>
+    <option value="light">ライト</option>
+    <option value="dark">ダーク</option>
+</select>
+</div>
 <p><em>ライセンス: Apache-2.0</em> | <a href="https://github.com/menhera-org/oriruyo.com">GitHub</a></p>
 </div>
 <div class="view" data-route-name="configure" hidden>

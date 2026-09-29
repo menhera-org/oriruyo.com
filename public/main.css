@@ -1,15 +1,41 @@
 :root {
-    color-scheme: light;
+    color-scheme: light dark;
     --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-    --brand-color: #126b83;
-    --brand-hover-color: #0b5369;
-    --brand-inverted-color: #fff;
-    --main-color: #19343e;
-    --main-inverted-color: #f1f7f9;
-    --secondary-color: #506973;
-    --secondary-inverted-color: #fff;
-    --border-color: #d3e2e7;
-    --focus-color: #0b6b87;
+    --brand-color: light-dark(#126b83, #80d7ea);
+    --brand-hover-color: light-dark(#0b5369, #b0ebf5);
+    --brand-inverted-color: light-dark(#fff, #08222c);
+    --main-color: light-dark(#19343e, #e6f2f5);
+    --main-inverted-color: light-dark(#f1f7f9, #091a22);
+    --secondary-color: light-dark(#506973, #b8cbd2);
+    --secondary-inverted-color: light-dark(#fff, #142831);
+    --border-color: light-dark(#d3e2e7, #3e5963);
+    --focus-color: light-dark(#0b6b87, #a6e9f5);
+    --page-glow-color: light-dark(#dceff3, #17333e);
+    --surface-color: light-dark(#fff, #142831);
+    --surface-shadow-color: light-dark(rgb(19 65 80 / .09), rgb(0 0 0 / .3));
+    --button-shadow-color: light-dark(rgb(18 107 131 / .16), rgb(0 0 0 / .26));
+    --button-hover-shadow-color: light-dark(rgb(18 107 131 / .22), rgb(0 0 0 / .32));
+    --button-active-shadow-color: light-dark(rgb(18 107 131 / .18), rgb(0 0 0 / .2));
+    --history-button-color: light-dark(#edf6f8, #1c3945);
+    --history-button-hover-color: light-dark(#deeff3, #244956);
+    --history-button-shadow-color: light-dark(rgb(18 107 131 / .09), rgb(0 0 0 / .2));
+    --field-border-color: light-dark(#b9cdd4, #4d6874);
+    --field-shadow-color: light-dark(rgb(19 65 80 / .05), rgb(0 0 0 / .15));
+    --placeholder-color: light-dark(#6f858d, #a0b6bf);
+    --field-hover-border-color: light-dark(#7fa9b7, #77b8cb);
+    --history-row-color: light-dark(#f8fbfc, #192e37);
+    --history-row-hover-color: light-dark(#edf6f8, #20414d);
+    --line-background-color: light-dark(#eaf5f7, #1c3a45);
+    --destination-border-color: light-dark(#bedbe3, #4b7a89);
+    --destination-background-color: light-dark(#f8fcfd, #10242c);
+}
+
+:root.theme-light {
+    color-scheme: light;
+}
+
+:root.theme-dark {
+    color-scheme: dark;
 }
 
 * {
@@ -27,7 +53,7 @@ body {
     margin-inline: 0;
     color: var(--main-color);
     background:
-        radial-gradient(circle at center, #dceff3 0, transparent 32rem),
+        radial-gradient(circle at center, var(--page-glow-color) 0, transparent 32rem),
         var(--main-inverted-color);
     font-family: var(--font-main);
     line-height: 1.65;
@@ -53,10 +79,10 @@ body {
     margin-inline: auto;
     padding-block: clamp(1.5rem, 5vi, 3rem);
     padding-inline: clamp(1.25rem, 5vi, 3rem);
-    background: #fff;
+    background: var(--surface-color);
     border: .0625rem solid var(--border-color);
     border-radius: clamp(1.1rem, 2vi, 1.5rem);
-    box-shadow: 0 0 3.5rem rgb(19 65 80 / .09);
+    box-shadow: 0 0 3.5rem var(--surface-shadow-color);
 }
 
 h1, h2 {
@@ -117,6 +143,35 @@ input[type="text"] {
     user-select: text;
 }
 
+#theme-control {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem;
+    margin-block-end: 1rem;
+}
+
+#theme-control label {
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+#theme-select {
+    max-inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding-block: .45rem;
+    padding-inline: .75rem;
+    border: .0625rem solid var(--field-border-color);
+    border-radius: .75rem;
+    background: var(--secondary-inverted-color);
+    color: var(--main-color);
+    cursor: pointer;
+}
+
+#theme-select:hover {
+    border-color: var(--field-hover-border-color);
+}
+
 button.action-button {
     display: flex;
     align-items: center;
@@ -130,7 +185,7 @@ button.action-button {
     border: .0625rem solid var(--brand-color);
     border-radius: .85rem;
     background: var(--brand-color);
-    box-shadow: 0 0 1rem rgb(18 107 131 / .16);
+    box-shadow: 0 0 1rem var(--button-shadow-color);
     color: var(--brand-inverted-color);
     font-size: 1.15rem;
     font-weight: 700;
@@ -143,25 +198,25 @@ button.action-button {
 
 button.action-button:hover {
     background: var(--brand-hover-color);
-    box-shadow: 0 0 1.25rem rgb(18 107 131 / .22);
+    box-shadow: 0 0 1.25rem var(--button-hover-shadow-color);
     transform: scale(1.01);
 }
 
 button.action-button:active {
     transform: scale(.99);
-    box-shadow: 0 0 .5rem rgb(18 107 131 / .18);
+    box-shadow: 0 0 .5rem var(--button-active-shadow-color);
 }
 
 #button-history {
     border-color: var(--border-color);
-    background: #edf6f8;
+    background: var(--history-button-color);
     box-shadow: none;
     color: var(--brand-hover-color);
 }
 
 #button-history:hover {
-    background: #deeff3;
-    box-shadow: 0 0 1rem rgb(18 107 131 / .09);
+    background: var(--history-button-hover-color);
+    box-shadow: 0 0 1rem var(--history-button-shadow-color);
 }
 
 #configure-form {
@@ -186,23 +241,23 @@ button.action-button:active {
     justify-self: stretch;
     padding-block: .7rem;
     padding-inline: .9rem;
-    border: .0625rem solid #b9cdd4;
+    border: .0625rem solid var(--field-border-color);
     border-radius: .75rem;
     background: var(--secondary-inverted-color);
     color: var(--main-color);
     font-size: 1.05rem;
     line-height: 1.4;
-    box-shadow: 0 0 .125rem rgb(19 65 80 / .05);
+    box-shadow: 0 0 .125rem var(--field-shadow-color);
 }
 
 #configure-form input::placeholder {
-    color: #6f858d;
+    color: var(--placeholder-color);
     opacity: 1;
 }
 
 #configure-form input:hover,
 #configure-form select:hover {
-    border-color: #7fa9b7;
+    border-color: var(--field-hover-border-color);
 }
 
 #configure-form input:focus-visible,
@@ -234,13 +289,13 @@ button.action-button:active {
     padding-inline: 1rem;
     border: .0625rem solid var(--border-color);
     border-radius: .75rem;
-    background: #f8fbfc;
+    background: var(--history-row-color);
     font-weight: 600;
     overflow-wrap: anywhere;
 }
 
 #history-list a:hover {
-    background: #edf6f8;
+    background: var(--history-row-hover-color);
 }
 
 .view[data-route-name="display"] {
@@ -270,7 +325,7 @@ button.action-button:active {
     padding-inline: 1rem;
     border-inline-start: .35rem solid var(--brand-color);
     border-radius: .75rem;
-    background: #eaf5f7;
+    background: var(--line-background-color);
     color: var(--main-color);
     font-size: max(3vi, 1.5rem);
     font-weight: 700;
@@ -288,9 +343,9 @@ button.action-button:active {
     min-block-size: 10rem;
     padding-block: 1vi;
     padding-inline: 1vi;
-    border: .125rem solid #bedbe3;
+    border: .125rem solid var(--destination-border-color);
     border-radius: 1.25rem;
-    background: #f8fcfd;
+    background: var(--destination-background-color);
     color: var(--brand-hover-color);
     font-size: max(8vi, 2rem);
     font-weight: 800;

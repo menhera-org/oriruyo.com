@@ -221,6 +221,39 @@ buttonHistory.onclick = (e) => {
     goTo('/history');
 };
 
+const THEME_LS_KEY = 'oriruyo-theme';
+const themeSelect = document.getElementById('theme-select');
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+let theme = 'system';
+try {
+    const savedTheme = localStorage.getItem(THEME_LS_KEY);
+    if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+} catch (_) {
+    // The system theme still works when storage is unavailable.
+}
+
+const applyTheme = () => {
+    document.documentElement.classList.toggle('theme-light', theme === 'light');
+    document.documentElement.classList.toggle('theme-dark', theme === 'dark');
+    const dark = theme === 'dark' || (theme === 'system' && systemDark.matches);
+    themeColorMeta.content = dark ? '#091a22' : '#f1f7f9';
+};
+
+themeSelect.value = theme;
+themeSelect.addEventListener('change', () => {
+    theme = themeSelect.value;
+    applyTheme();
+    try {
+        if (theme === 'system') localStorage.removeItem(THEME_LS_KEY);
+        else localStorage.setItem(THEME_LS_KEY, theme);
+    } catch (_) {
+        // Keep the selected theme for this page even without storage.
+    }
+});
+systemDark.addEventListener('change', applyTheme);
+applyTheme();
+
 handleRouteChange();
 
 if ('serviceWorker' in navigator) {
