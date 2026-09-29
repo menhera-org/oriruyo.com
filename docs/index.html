@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>降りるよ.com</title>
+<link rel="stylesheet" href="main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://oriruyo.com/">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3792AD">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="降りるよ">
+<meta name="description" content="現在乗車中の列車、路面電車、バスのあなたが降りる地点を分かりやすく画面に表示するアプリです。">
+<meta property="og:description" content="現在乗車中の列車、路面電車、バスのあなたが降りる地点を分かりやすく画面に表示するアプリです。">
+<meta property="og:title" content="降りるよ.com">
+<meta property="og:url" content="https://oriruyo.com/">
+<meta property="og:site_name" content="降りるよ">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://oriruyo.com/icon.png">
+<meta name="twitter:card" content="summary">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; worker-src 'self'; manifest-src 'self'; font-src 'self'; img-src 'self'; base-uri 'none';">
+<script src="main.js" defer></script>
+</head>
+<body>
+<div id="views">
+<div class="view" data-route-name="root">
+<h1>降りるよ.com (oriruyo.com)</h1>
+<p>現在乗車中の列車、路面電車、バスのあなたが降りる地点を分かりやすく画面に表示するアプリです。</p>
+<p>これをあなたのスマホやタブレットの画面に表示しておけば、空き席待ちの人にも分かりやすく親切！</p>
+<p>一旦起動すれば、圏外やオフラインでも使えます。</p>
+<p>iOSの方はSafariから「ホーム画面に追加」、Androidの方はChromeまたはFirefoxからアプリとして「インストール」を選択すれば、ホーム画面に追加されてアプリとして使えます。</p>
+<hr>
+<button id="button-start" class="action-button">はじめる</button>
+<button id="button-history" class="action-button">過去履歴</button>
+<hr>
+<p><em>ライセンス: Apache-2.0</em> | <a href="https://github.com/menhera-org/oriruyo.com">GitHub</a></p>
+</div>
+<div class="view" data-route-name="configure" hidden>
+<h1>降車地を入力</h1>
+<form id="configure-form">
+<div>
+    <label for="input-line-for">路線・行き先</label>
+    <input required autocomplete="off" type="text" id="input-line-for" name="line_for" placeholder="学07 東大構内 行き">
+</div>
+<div>
+    <label for="input-dest">降りる地点</label>
+    <input required autocomplete="off" type="text" id="input-dest" name="dest" placeholder="龍岡門">
+</div>
+<div>
+    <label for="input-kind">降りる地点の種類</label>
+    <select autocomplete="off" id="input-kind" name="kind">
+        <option selected value="train-station">列車駅</option>
+        <option value="tram-stop">電停</option>
+        <option value="bus-stop">バス停</option>
+        <option value="other">その他の地点</option>
+    </select>
+</div>
+<button type="submit" id="button-configure" class="action-button">設定・表示</button>
+</form>
+<hr>
+<p><a href="#/">戻る</a></p>
+</div>
+<div class="view" data-route-name="display" hidden>
+<div id="display-kind">私の降りる<span id="display-kind-value"></span>は：</div>
+<div id="display-line-for"></div>
+<div id="display-dest"></div>
+<div id="display-credit">降りるよ.com</div>
+<hr>
+<p><a href="#/">戻る</a> | ＊スマホは横画面がおすすめ！</p>
+</div>
+<div class="view" data-route-name="history" hidden>
+<h1>過去履歴</h1>
+<ol id="history-list"></ol>
+<hr>
+<p><a href="#/">戻る</a></p>
+</div>
+<div class="view" data-route-name="not-found" hidden>
+<h1>降りるよ.com (oriruyo.com)</h1>
+<h2>ページが見つかりません</h2>
+<hr>
+<p><a href="#/">戻る</a></p>
+</div>
+</div>
+</body>
+</html>

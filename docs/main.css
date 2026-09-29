@@ -1,0 +1,128 @@
+
+:root, * {
+    --font-main: system-ui, sans-serif;
+    --brand-color: #3792AD;
+    --brand-inverted-color: #FFFFFF;
+    --main-color: #333;
+    --main-inverted-color: #eee;
+    --secondary-color: #888;
+    --secondary-inverted-color: #fff;
+}
+
+a {
+    color: var(--brand-color) !important;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-main);
+    color: var(--main-color);
+    background-color: var(--main-inverted-color);
+    font-size-adjust: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+input, select, button {
+    font: inherit;
+}
+
+input[type="text"] {
+    -moz-user-select: text;
+    user-select: text;
+}
+
+button.action-button {
+    display: block;
+    inline-size: max-content;
+    margin-inline: auto;
+    background-color: var(--brand-color);
+    color: var(--brand-inverted-color);
+    border-radius: .5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-block: 1rem;
+    padding-inline: 1rem;
+    padding-block: .5rem;
+    appearance: none;
+    border: none;
+}
+
+#configure-form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+#configure-form > div {
+    grid-column: span 2;
+    grid-template-columns: subgrid;
+    display: grid;
+}
+
+#configure-form > .action-button {
+    grid-column: span 2;
+    justify-self: center;
+}
+
+#configure-form > div > * {
+    display: block;
+    margin: 0;
+    border: solid 0.125rem var(--secondary-color);
+    background-color: var(--secondary-inverted-color);
+    border-radius: 0;
+    padding-inline: .5rem;
+    padding-block: 1rem;
+    font-size: 1.25rem;
+    text-align: start;
+    min-inline-size: 0;
+    justify-self: stretch;
+    align-self: stretch;
+}
+
+#configure-form > div > label {
+    text-align: end;
+    border-color: transparent;
+    background-color: transparent;
+}
+
+#display-credit {
+    color: var(--secondary-color);
+    font-size: max(1vi, 1rem);
+    font-weight: bold;
+    text-align: end;
+}
+
+#display-kind {
+    font-size: max(5vi, 1.75rem);
+    font-weight: bold;
+}
+
+#display-line-for {
+    font-size: max(3vi, 1.5rem);
+    font-weight: bold;
+    -moz-user-select: text;
+    user-select: text;
+}
+
+#display-dest {
+    font-size: max(8vi, 2rem);
+    font-weight: bold;
+    -moz-user-select: text;
+    user-select: text;
+}
+
+div.view {
+    padding-inline: 1.5rem;
+    padding-block: .75rem;
+}
+
+#history-list {
+    -moz-user-select: text;
+    user-select: text;
+}
