@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oriruyo-v1';
+const CACHE_NAME = 'oriruyo-v2';
 const CACHE_PREFIX = 'oriruyo-';
 const APP_ROOT = self.registration.scope;
 const APP_SHELL = [

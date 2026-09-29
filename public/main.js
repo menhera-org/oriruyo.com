@@ -39,6 +39,77 @@ const selectView = (name) => {
     }
 };
 
+const WAKE_LOCK_LS_KEY = 'oriruyo-wake-lock-enabled';
+const wakeLockCheckbox = document.getElementById('display-wake-lock');
+try {
+    wakeLockCheckbox.checked = localStorage.getItem(WAKE_LOCK_LS_KEY) !== 'false';
+} catch (_) {
+    // Keep the default when storage is unavailable.
+}
+
+let wakeLockSentinel = null;
+let wakeLockRequestPending = false;
+let wakeLockRequestVersion = 0;
+let pageActive = true;
+
+const shouldHoldWakeLock = () =>
+    pageActive && wakeLockCheckbox.checked && getRoute().route === '/display' &&
+    document.visibilityState === 'visible';
+
+const releaseWakeLock = () => {
+    if (!wakeLockSentinel) return;
+    const sentinel = wakeLockSentinel;
+    wakeLockSentinel = null;
+    sentinel.release().catch(error => console.warn('Screen wake lock release failed:', error));
+};
+
+const syncWakeLock = () => {
+    if (!shouldHoldWakeLock()) {
+        wakeLockRequestVersion++;
+        releaseWakeLock();
+        return;
+    }
+    if (wakeLockSentinel || wakeLockRequestPending || !navigator.wakeLock?.request) return;
+
+    const requestVersion = ++wakeLockRequestVersion;
+    wakeLockRequestPending = true;
+    navigator.wakeLock.request('screen').then(sentinel => {
+        wakeLockRequestPending = false;
+        if (requestVersion !== wakeLockRequestVersion || !shouldHoldWakeLock()) {
+            sentinel.release().catch(error => console.warn('Screen wake lock release failed:', error));
+            if (shouldHoldWakeLock()) syncWakeLock();
+            return;
+        }
+        wakeLockSentinel = sentinel;
+        sentinel.addEventListener('release', () => {
+            if (wakeLockSentinel === sentinel) wakeLockSentinel = null;
+        });
+    }).catch(error => {
+        wakeLockRequestPending = false;
+        console.warn('Screen wake lock request failed:', error);
+        if (requestVersion !== wakeLockRequestVersion && shouldHoldWakeLock()) syncWakeLock();
+    });
+};
+
+wakeLockCheckbox.addEventListener('change', () => {
+    try {
+        if (wakeLockCheckbox.checked) localStorage.removeItem(WAKE_LOCK_LS_KEY);
+        else localStorage.setItem(WAKE_LOCK_LS_KEY, 'false');
+    } catch (_) {
+        // Keep the selected setting for this page even without storage.
+    }
+    syncWakeLock();
+});
+document.addEventListener('visibilitychange', syncWakeLock);
+window.addEventListener('pagehide', () => {
+    pageActive = false;
+    syncWakeLock();
+});
+window.addEventListener('pageshow', () => {
+    pageActive = true;
+    syncWakeLock();
+});
+
 // SPA soft 404
 const setNotFound = (is404) => {
     const metaRobots = document.head.querySelector('meta[name="robots"]');
@@ -51,6 +122,7 @@ const setNotFound = (is404) => {
 
 const handleRouteChange = () => {
     const { route, searchParams } = getRoute();
+    syncWakeLock();
     switch (route) {
         case '/':
             routeHome();

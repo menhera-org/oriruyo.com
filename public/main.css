@@ -375,6 +375,10 @@ button.action-button:active {
     text-align: center;
 }
 
+#display-wake-lock-control {
+    margin-block-end: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
     button.action-button {
         transition: none;
